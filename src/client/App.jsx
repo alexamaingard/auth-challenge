@@ -53,18 +53,18 @@ function App() {
     }
   }
 
-  // const loginUser = async () => {
-  //   try{
-  //       const token = await postFetch('login', userLoginData);
-  //       console.log(token);
-  //       if(token){
-  //           return token;
-  //       }
-  //   }
-  //   catch(error){
-  //       console.log(error);
-  //   }
-  // }
+  const loginUser = async () => {
+    try{
+        const token = await postFetch('login', userLoginData);
+        console.log(token);
+        if(token){
+            return token;
+        }
+    }
+    catch(error){
+        console.log(error);
+    }
+  }
 
   const handleRegisterChange = event => {
     const { name, value } = event.target;
@@ -78,14 +78,18 @@ function App() {
     const registeredUser = await registerUser();
   }
 
-  console.log(userRegisterData);
-
   const handleLoginChange = event => {
-
+    const { name, value } = event.target;
+    setUserLoginData({...userLoginData, [name]: value});
   }
 
-  const handleLogin = event => {
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setUserLoginData(userRegisterData);
 
+    const token = await loginUser();
+    console.log(token);
+    localStorage.setItem("userToken", token);
   }
 
   const handleMovieChange = event => {
